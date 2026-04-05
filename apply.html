@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Apply — Bragg Life Sciences</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{
+            --sage:#7EAF96;--sage-d:#5a8a72;--sage-l:#e8f2ed;--sage-ll:#f4f9f6;
+            --dark:#1a2e25;--mid:#3d5a4a;--gray:#6b7b72;--light-gray:#f0f4f2;
+            --white:#ffffff;--border:#dde8e3;
+        }
+        html{scroll-behavior:smooth}
+        body{font-family:'Inter',sans-serif;background:var(--white);color:var(--dark);overflow-x:hidden;min-height:100vh;display:flex;flex-direction:column}
+
+        /* HEADER */
+        header{background:var(--white);border-bottom:1px solid var(--border)}
+        .header-top{background:var(--dark);color:rgba(255,255,255,.7);font-size:.72rem;text-align:center;padding:.5rem 1rem;letter-spacing:.04em}
+        .header-top span{color:var(--sage)}
+        .nav-bar{display:flex;align-items:center;justify-content:space-between;padding:1rem 3rem;max-width:1280px;margin:0 auto}
+        .logo{display:flex;align-items:center;gap:.75rem;text-decoration:none}
+        .logo img{height:44px;width:auto}
+        .logo-text{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--dark);line-height:1.1}
+        .logo-text small{display:block;font-family:'Inter',sans-serif;font-size:.6rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--sage)}
+        .nav-links{display:flex;list-style:none;gap:2.5rem;align-items:center}
+        .nav-links a{color:var(--mid);font-size:.82rem;font-weight:500;text-decoration:none;transition:color .2s}
+        .nav-links a:hover{color:var(--sage-d)}
+        .nav-actions{display:flex;gap:.75rem;align-items:center}
+        .btn-outline{border:1.5px solid var(--sage);color:var(--sage-d);padding:.55rem 1.3rem;border-radius:6px;font-size:.78rem;font-weight:600;text-decoration:none;transition:all .25s}
+        .btn-outline:hover{background:var(--sage);color:#fff}
+        .btn-primary{background:var(--sage);color:#fff;padding:.55rem 1.3rem;border-radius:6px;font-size:.78rem;font-weight:600;text-decoration:none;transition:all .25s}
+        .btn-primary:hover{background:var(--sage-d)}
+        .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:.25rem}
+        .hamburger span{display:block;width:24px;height:2px;background:var(--dark);border-radius:2px}
+
+        /* MAIN */
+        main{flex:1;padding:3.5rem 3rem}
+        .apply-wrap{max-width:680px;margin:0 auto}
+
+        /* BREADCRUMB */
+        .breadcrumb{display:flex;align-items:center;gap:.5rem;font-size:.78rem;color:var(--gray);margin-bottom:2.5rem}
+        .breadcrumb a{color:var(--sage-d);text-decoration:none}
+        .breadcrumb a:hover{text-decoration:underline}
+
+        /* HEADING */
+        .apply-heading{font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:var(--dark);margin-bottom:2.5rem}
+
+        /* STEP INDICATOR */
+        .steps{display:flex;align-items:center;gap:0;margin-bottom:2.5rem}
+        .step{display:flex;align-items:center;gap:.6rem;font-size:.82rem;font-weight:600;color:var(--gray)}
+        .step.active{color:var(--dark)}
+        .step-num{width:28px;height:28px;border-radius:50%;background:var(--light-gray);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;color:var(--gray);flex-shrink:0;border:1.5px solid var(--border)}
+        .step.active .step-num{background:var(--sage);color:#fff;border-color:var(--sage)}
+        .step.done .step-num{background:var(--sage-d);color:#fff;border-color:var(--sage-d)}
+        .step.done{color:var(--sage-d)}
+        .step-connector{width:40px;height:1.5px;background:var(--border);margin:0 .5rem}
+        .step-connector.done{background:var(--sage)}
+
+        /* JOB BANNER */
+        .job-banner{background:var(--sage-ll);border:1px solid var(--border);border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+        .job-banner-title{font-size:1.1rem;font-weight:700;color:var(--dark)}
+        .job-banner-meta{font-size:.8rem;color:var(--gray);margin-top:.2rem}
+        .back-link{font-size:.8rem;color:var(--sage-d);text-decoration:none;font-weight:600}
+        .back-link:hover{text-decoration:underline}
+
+        /* UPLOAD ZONE */
+        .upload-section{margin-bottom:2rem}
+        .upload-label{font-size:.82rem;font-weight:700;color:var(--dark);margin-bottom:.75rem;display:block}
+        .upload-zone{border:2px dashed var(--border);border-radius:12px;padding:3.5rem 2rem;text-align:center;cursor:pointer;transition:all .25s;background:var(--white);position:relative}
+        .upload-zone:hover,.upload-zone.dragover{border-color:var(--sage);background:var(--sage-ll)}
+        .upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+        .upload-icon{margin:0 auto 1rem;width:48px;height:48px;background:var(--sage-l);border-radius:12px;display:flex;align-items:center;justify-content:center}
+        .upload-icon svg{width:24px;height:24px;stroke:var(--sage-d);fill:none;stroke-width:1.8}
+        .upload-title{font-size:.95rem;font-weight:600;color:var(--dark);margin-bottom:.35rem}
+        .upload-sub{font-size:.8rem;color:var(--gray)}
+        .upload-sub span{color:var(--sage-d);font-weight:600}
+        .upload-limit{font-size:.75rem;color:var(--gray);margin-top:.5rem}
+        .file-selected{display:none;align-items:center;gap:.75rem;background:var(--sage-l);border-radius:8px;padding:.75rem 1rem;margin-top:1rem}
+        .file-selected.show{display:flex}
+        .file-icon{width:36px;height:36px;background:var(--sage);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .file-icon svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:1.8}
+        .file-name{flex:1;font-size:.82rem;font-weight:600;color:var(--dark)}
+        .file-size{font-size:.75rem;color:var(--gray)}
+        .file-remove{background:none;border:none;cursor:pointer;color:var(--gray);font-size:1rem;padding:.2rem;line-height:1}
+        .file-remove:hover{color:var(--dark)}
+
+        /* FORM FIELDS */
+        .form-section{margin-bottom:2rem}
+        .form-section-title{font-size:.82rem;font-weight:700;color:var(--dark);margin-bottom:1rem;padding-bottom:.6rem;border-bottom:1px solid var(--border)}
+        .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+        .ff{display:flex;flex-direction:column;gap:.4rem}
+        .ff.full{grid-column:span 2}
+        .flabel{font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gray)}
+        .finput{border:1.5px solid var(--border);border-radius:8px;padding:.75rem 1rem;font-size:.875rem;font-family:'Inter',sans-serif;color:var(--dark);background:var(--white);outline:none;transition:border-color .2s}
+        .finput:focus{border-color:var(--sage)}
+        .finput::placeholder{color:#b0bbb6}
+        select.finput{cursor:pointer}
+        textarea.finput{resize:vertical;min-height:100px}
+
+        /* CONSENT */
+        .consent{display:flex;align-items:flex-start;gap:.75rem;margin-bottom:2rem;padding:1.25rem;background:var(--light-gray);border-radius:10px;border:1px solid var(--border)}
+        .consent input[type=checkbox]{accent-color:var(--sage);width:16px;height:16px;cursor:pointer;flex-shrink:0;margin-top:2px}
+        .consent-text{font-size:.8rem;color:var(--gray);line-height:1.7}
+        .consent-text a{color:var(--sage-d)}
+
+        /* SUBMIT */
+        .submit-row{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+        .back-btn{display:inline-flex;align-items:center;gap:.4rem;color:var(--mid);font-size:.85rem;font-weight:600;text-decoration:none;transition:color .2s}
+        .back-btn:hover{color:var(--sage-d)}
+        .submit-btn{background:var(--sage);color:#fff;border:none;padding:.9rem 2.5rem;border-radius:8px;font-size:.9rem;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;transition:background .25s}
+        .submit-btn:hover{background:var(--sage-d)}
+        .submit-btn:disabled{opacity:.6;cursor:not-allowed}
+
+        /* SUCCESS */
+        .success-msg{display:none;text-align:center;padding:4rem 2rem}
+        .success-msg.show{display:block}
+        .success-icon{width:72px;height:72px;background:var(--sage-l);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem}
+        .success-icon svg{width:36px;height:36px;stroke:var(--sage-d);fill:none;stroke-width:2}
+        .success-title{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--dark);margin-bottom:.75rem}
+        .success-sub{font-size:.95rem;color:var(--gray);line-height:1.8;max-width:440px;margin:0 auto 2rem}
+        .success-links{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+
+        /* FOOTER */
+        footer{background:var(--dark);color:rgba(255,255,255,.7);padding:3rem}
+        .footer-bottom{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+        .footer-logo{font-family:'Playfair Display',serif;font-size:1.1rem;color:#fff}
+        .footer-logo em{color:var(--sage);font-style:italic}
+        .footer-copy{font-size:.78rem;color:rgba(255,255,255,.35)}
+
+        @media(max-width:768px){
+            .nav-bar{padding:1rem 1.5rem}.nav-links{display:none}
+            .nav-links.open{display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:var(--white);border-bottom:1px solid var(--border);padding:1.5rem;gap:1rem;box-shadow:0 8px 24px rgba(0,0,0,.1);z-index:99}
+            .hamburger{display:flex}.nav-actions .btn-outline{display:none}
+            main{padding:2rem 1.5rem}
+            .form-grid{grid-template-columns:1fr}
+            .ff.full{grid-column:span 1}
+            .apply-heading{font-size:2rem}
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-top">Life Science Recruitment — <span>UK · EU · US · MENA</span></div>
+    <div class="nav-bar">
+        <a href="index.html" class="logo">
+            <img src="image.jpeg" alt="Bragg Life Sciences">
+            <div class="logo-text">Bragg Life Sciences</div>
+        </a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#solutions">Solutions</a></li>
+            <li><a href="jobs.html">Jobs</a></li>
+            <li><a href="index.html#testimonials">Clients</a></li>
+            <li><a href="index.html#team">Team</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="jobs.html" class="btn-outline">Find a Job</a>
+            <a href="index.html#contact" class="btn-primary">Submit CV</a>
+        </div>
+        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </div>
+</header>
+
+<main>
+    <div class="apply-wrap">
+
+        <div class="breadcrumb">
+            <a href="index.html">Home</a>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            <a href="jobs.html">Find a Job</a>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            <a href="#" id="breadJobLink">Job Detail</a>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            Apply
+        </div>
+
+        <h1 class="apply-heading">Apply</h1>
+
+        <!-- STEPS -->
+        <div class="steps">
+            <div class="step active">
+                <div class="step-num">1</div>
+                Step 1 of 2
+            </div>
+            <div class="step-connector"></div>
+            <div class="step">
+                <div class="step-num">2</div>
+                Your details
+            </div>
+        </div>
+
+        <!-- JOB BANNER -->
+        <div class="job-banner">
+            <div>
+                <div class="job-banner-title" id="jobBannerTitle">Loading...</div>
+                <div class="job-banner-meta">Bragg Life Sciences</div>
+            </div>
+            <a href="#" id="backToJob" class="back-link">← Back to job</a>
+        </div>
+
+        <!-- FORM -->
+        <form id="applyForm" action="https://formsubmit.co/haseebsaqib20@gmail.com" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_subject" id="emailSubject" value="New Job Application — Bragg Life Sciences">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="job_title" id="hiddenJobTitle" value="">
+
+            <!-- CV UPLOAD -->
+            <div class="upload-section">
+                <label class="upload-label">Upload your CV</label>
+                <div class="upload-zone" id="uploadZone">
+                    <input type="file" name="cv" id="cvInput" accept=".pdf,.doc,.docx" onchange="handleFile(this)">
+                    <div class="upload-icon">
+                        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    </div>
+                    <div class="upload-title">Drop files here to upload</div>
+                    <div class="upload-sub">or <span>browse your files</span></div>
+                    <div class="upload-limit">Max file size 16MB · PDF, DOC, DOCX</div>
+                </div>
+                <div class="file-selected" id="fileSelected">
+                    <div class="file-icon">
+                        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    </div>
+                    <div>
+                        <div class="file-name" id="fileName">—</div>
+                        <div class="file-size" id="fileSize">—</div>
+                    </div>
+                    <button type="button" class="file-remove" onclick="removeFile()">✕</button>
+                </div>
+            </div>
+
+            <!-- PERSONAL DETAILS -->
+            <div class="form-section">
+                <div class="form-section-title">Personal details</div>
+                <div class="form-grid">
+                    <div class="ff">
+                        <label class="flabel">First name</label>
+                        <input class="finput" type="text" name="first_name" placeholder="First name" required>
+                    </div>
+                    <div class="ff">
+                        <label class="flabel">Last name</label>
+                        <input class="finput" type="text" name="last_name" placeholder="Last name" required>
+                    </div>
+                    <div class="ff">
+                        <label class="flabel">Email address</label>
+                        <input class="finput" type="email" name="email" placeholder="your@email.com" required>
+                    </div>
+                    <div class="ff">
+                        <label class="flabel">Phone number</label>
+                        <input class="finput" type="tel" name="phone" placeholder="+44 7700 000000">
+                    </div>
+                    <div class="ff full">
+                        <label class="flabel">Current location</label>
+                        <input class="finput" type="text" name="location" placeholder="e.g. London, UK">
+                    </div>
+                    <div class="ff full">
+                        <label class="flabel">LinkedIn profile (optional)</label>
+                        <input class="finput" type="url" name="linkedin" placeholder="https://linkedin.com/in/...">
+                    </div>
+                    <div class="ff full">
+                        <label class="flabel">Cover note (optional)</label>
+                        <textarea class="finput" name="cover_note" placeholder="Tell us why you're a great fit for this role..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONSENT -->
+            <div class="consent">
+                <input type="checkbox" id="consent" required>
+                <label class="consent-text" for="consent">
+                    I agree to Bragg Life Sciences storing and processing my personal data in accordance with their privacy policy. My information will only be used to match me with relevant roles and will not be shared with third parties without my consent.
+                </label>
+            </div>
+
+            <!-- SUBMIT -->
+            <div class="submit-row">
+                <a href="#" id="backBtn" class="back-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+                    Back to job
+                </a>
+                <button type="submit" class="submit-btn" id="submitBtn">Submit application →</button>
+            </div>
+        </form>
+
+        <!-- SUCCESS -->
+        <div class="success-msg" id="successMsg">
+            <div class="success-icon">
+                <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="success-title">Application submitted!</div>
+            <p class="success-sub">Thank you for applying. Anjam will review your application and be in touch within 2 working days.</p>
+            <div class="success-links">
+                <a href="jobs.html" class="btn-primary">Browse more jobs</a>
+                <a href="index.html" class="btn-outline">Return to home</a>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<footer>
+    <div class="footer-bottom">
+        <div class="footer-logo">BRAGG<em>.</em> Life Sciences</div>
+        <div class="footer-copy">© 2025 Bragg Life Sciences Ltd · Registered Company No. 16959985</div>
+        <div class="footer-copy">Powered by <a href="https://www.webzcreatives.com" target="_blank" style="color:rgba(255,255,255,.5);text-decoration:none" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.5)'">webzcreatives</a></div>
+    </div>
+</footer>
+
+<script>
+    const hamburger=document.getElementById('hamburger');
+    const navLinks=document.getElementById('navLinks');
+    hamburger.addEventListener('click',()=>navLinks.classList.toggle('open'));
+
+    // URL params
+    const params=new URLSearchParams(location.search);
+    const jobId=params.get('id')||'1';
+    const jobTitle=params.get('title')||'Job Application';
+
+    document.getElementById('jobBannerTitle').textContent=jobTitle;
+    document.getElementById('hiddenJobTitle').value=jobTitle;
+    document.getElementById('emailSubject').value=`New Application: ${jobTitle} — Bragg Life Sciences`;
+    document.title=`Apply — ${jobTitle} — Bragg Life Sciences`;
+
+    const detailUrl=`job-detail.html?id=${jobId}&title=${encodeURIComponent(jobTitle)}`;
+    document.getElementById('breadJobLink').textContent=jobTitle;
+    document.getElementById('breadJobLink').href=detailUrl;
+    document.getElementById('backToJob').href=detailUrl;
+    document.getElementById('backBtn').href=detailUrl;
+
+    // Drag & drop
+    const zone=document.getElementById('uploadZone');
+    zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('dragover')});
+    zone.addEventListener('dragleave',()=>zone.classList.remove('dragover'));
+    zone.addEventListener('drop',e=>{
+        e.preventDefault();zone.classList.remove('dragover');
+        const file=e.dataTransfer.files[0];
+        if(file){document.getElementById('cvInput').files=e.dataTransfer.files;handleFile(document.getElementById('cvInput'))}
+    });
+
+    function handleFile(input){
+        const file=input.files[0];
+        if(!file) return;
+        document.getElementById('fileName').textContent=file.name;
+        document.getElementById('fileSize').textContent=formatSize(file.size);
+        document.getElementById('fileSelected').classList.add('show');
+        zone.querySelector('.upload-title').textContent='CV uploaded';
+        zone.querySelector('.upload-sub').innerHTML='<span>Click to replace</span>';
+    }
+
+    function removeFile(){
+        document.getElementById('cvInput').value='';
+        document.getElementById('fileSelected').classList.remove('show');
+        zone.querySelector('.upload-title').textContent='Drop files here to upload';
+        zone.querySelector('.upload-sub').innerHTML='or <span>browse your files</span>';
+    }
+
+    function formatSize(bytes){
+        if(bytes<1024) return bytes+'B';
+        if(bytes<1048576) return (bytes/1024).toFixed(1)+'KB';
+        return (bytes/1048576).toFixed(1)+'MB';
+    }
+
+    // Form submit
+    const form=document.getElementById('applyForm');
+    const submitBtn=document.getElementById('submitBtn');
+    form.addEventListener('submit',async e=>{
+        e.preventDefault();
+        submitBtn.textContent='Submitting…';
+        submitBtn.disabled=true;
+        try{
+            const data=new FormData(form);
+            const res=await fetch(`https://formsubmit.co/ajax/haseebsaqib20@gmail.com`,{
+                method:'POST',
+                headers:{'Accept':'application/json'},
+                body:data
+            });
+            const json=await res.json();
+            if(json.success==='true'||json.success===true){
+                form.style.display='none';
+                document.getElementById('successMsg').classList.add('show');
+            } else { throw new Error() }
+        } catch{
+            submitBtn.textContent='Error — please try again';
+            submitBtn.style.background='#c0392b';
+            submitBtn.disabled=false;
+        }
+    });
+</script>
+</body>
+</html>

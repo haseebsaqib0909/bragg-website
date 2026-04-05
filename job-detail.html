@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Job Detail — Bragg Life Sciences</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{
+            --sage:#7EAF96;--sage-d:#5a8a72;--sage-l:#e8f2ed;--sage-ll:#f4f9f6;
+            --dark:#1a2e25;--mid:#3d5a4a;--gray:#6b7b72;--light-gray:#f0f4f2;
+            --white:#ffffff;--border:#dde8e3;
+        }
+        html{scroll-behavior:smooth}
+        body{font-family:'Inter',sans-serif;background:var(--white);color:var(--dark);overflow-x:hidden}
+
+        /* HEADER */
+        header{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--white);border-bottom:1px solid var(--border);transition:box-shadow .3s}
+        header.scrolled{box-shadow:0 2px 20px rgba(0,0,0,.08)}
+        .header-top{background:var(--dark);color:rgba(255,255,255,.7);font-size:.72rem;text-align:center;padding:.5rem 1rem;letter-spacing:.04em}
+        .header-top span{color:var(--sage)}
+        .nav-bar{display:flex;align-items:center;justify-content:space-between;padding:1rem 3rem;max-width:1280px;margin:0 auto}
+        .logo{display:flex;align-items:center;gap:.75rem;text-decoration:none}
+        .logo img{height:44px;width:auto}
+        .logo-text{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--dark);line-height:1.1}
+        .logo-text small{display:block;font-family:'Inter',sans-serif;font-size:.6rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--sage)}
+        .nav-links{display:flex;list-style:none;gap:2.5rem;align-items:center}
+        .nav-links a{color:var(--mid);font-size:.82rem;font-weight:500;text-decoration:none;transition:color .2s}
+        .nav-links a:hover,.nav-links a.active{color:var(--sage-d)}
+        .nav-actions{display:flex;gap:.75rem;align-items:center}
+        .btn-outline{border:1.5px solid var(--sage);color:var(--sage-d);padding:.55rem 1.3rem;border-radius:6px;font-size:.78rem;font-weight:600;text-decoration:none;transition:all .25s}
+        .btn-outline:hover{background:var(--sage);color:#fff}
+        .btn-primary{background:var(--sage);color:#fff;padding:.55rem 1.3rem;border-radius:6px;font-size:.78rem;font-weight:600;text-decoration:none;transition:all .25s}
+        .btn-primary:hover{background:var(--sage-d)}
+        .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:.25rem}
+        .hamburger span{display:block;width:24px;height:2px;background:var(--dark);border-radius:2px}
+
+        /* PAGE */
+        .page-wrap{padding-top:106px;max-width:1280px;margin:0 auto;padding-left:3rem;padding-right:3rem}
+        .breadcrumb{display:flex;align-items:center;gap:.5rem;font-size:.78rem;color:var(--gray);margin:2rem 0 1.5rem}
+        .breadcrumb a{color:var(--sage-d);text-decoration:none}
+        .breadcrumb a:hover{text-decoration:underline}
+
+        /* JOB HEADER */
+        .job-header{display:flex;align-items:flex-start;justify-content:space-between;gap:2rem;padding-bottom:2rem;border-bottom:1px solid var(--border);flex-wrap:wrap}
+        .job-title{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;color:var(--dark);margin-bottom:.75rem}
+        .job-company{font-size:.9rem;color:var(--sage-d);font-weight:600;margin-bottom:.5rem}
+        .job-tags{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.75rem}
+        .tag{font-size:.7rem;font-weight:600;letter-spacing:.06em;padding:.35rem .85rem;border-radius:100px}
+        .tag-perm{background:#e8f5f0;color:#2d7a57}
+        .tag-contract{background:#fff3e0;color:#c17000}
+        .tag-interim{background:#ede8ff;color:#6b4fa8}
+        .tag-sector{background:var(--sage-l);color:var(--sage-d)}
+        .apply-btn{background:var(--sage);color:#fff;border:none;padding:.85rem 2rem;border-radius:8px;font-size:.9rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:background .25s;text-decoration:none;white-space:nowrap;display:inline-block}
+        .apply-btn:hover{background:var(--sage-d)}
+
+        /* KEY FACTS */
+        .key-facts{background:var(--light-gray);border-radius:12px;padding:1.5rem 2rem;margin:2rem 0;display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
+        .fact-item{}
+        .fact-label{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-bottom:.35rem}
+        .fact-val{font-size:.9rem;font-weight:600;color:var(--dark)}
+
+        /* CONTENT GRID */
+        .content-grid{display:grid;grid-template-columns:1fr 320px;gap:3rem;margin:2.5rem 0 4rem;align-items:start}
+        .job-body section{margin-bottom:2.25rem}
+        .job-body h2{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:700;color:var(--dark);margin-bottom:1rem}
+        .job-body p{font-size:.9rem;color:var(--mid);line-height:1.85;margin-bottom:.85rem}
+        .job-body ul{list-style:none;display:flex;flex-direction:column;gap:.6rem;padding-left:0}
+        .job-body ul li{font-size:.88rem;color:var(--mid);line-height:1.7;display:flex;align-items:flex-start;gap:.75rem}
+        .job-body ul li::before{content:'';display:block;width:6px;height:6px;border-radius:50%;background:var(--sage);margin-top:.55rem;flex-shrink:0}
+        .job-body .apply-cta{background:var(--sage);color:#fff;border:none;padding:.9rem 2.5rem;border-radius:8px;font-size:.9rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:background .25s;text-decoration:none;display:inline-block;margin-top:.5rem}
+        .job-body .apply-cta:hover{background:var(--sage-d)}
+
+        /* SIDEBAR */
+        .job-sidebar{}
+        .sidebar-box{background:var(--light-gray);border-radius:12px;padding:1.75rem;margin-bottom:1.25rem;border:1px solid var(--border)}
+        .sidebar-box-title{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);margin-bottom:1rem;padding-bottom:.75rem;border-bottom:1px solid var(--border)}
+        .consultant-avatar{width:60px;height:60px;background:var(--sage);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:700;color:#fff;font-family:'Playfair Display',serif;margin-bottom:1rem}
+        .consultant-img{width:60px;height:60px;border-radius:50%;object-fit:cover;margin-bottom:1rem;border:2px solid var(--sage-l)}
+        .consultant-name{font-size:.95rem;font-weight:700;color:var(--dark);margin-bottom:.2rem}
+        .consultant-role{font-size:.78rem;color:var(--gray);margin-bottom:1rem}
+        .sidebar-clink{display:flex;align-items:center;gap:.6rem;font-size:.82rem;color:var(--mid);text-decoration:none;padding:.6rem .75rem;background:var(--white);border-radius:8px;border:1px solid var(--border);margin-bottom:.5rem;transition:all .2s}
+        .sidebar-clink:hover{border-color:var(--sage);color:var(--sage-d)}
+        .sidebar-clink svg{width:14px;height:14px;stroke:var(--sage-d);fill:none;stroke-width:1.8;flex-shrink:0}
+        .share-btns{display:flex;gap:.5rem}
+        .share-btn{flex:1;border:1.5px solid var(--border);background:var(--white);color:var(--mid);padding:.55rem;border-radius:8px;font-size:.75rem;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;text-align:center}
+        .share-btn:hover{border-color:var(--sage);color:var(--sage-d)}
+
+        /* RELATED JOBS */
+        .related{background:var(--light-gray);padding:4rem 3rem}
+        .related-inner{max-width:1280px;margin:0 auto}
+        .related h2{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:var(--dark);margin-bottom:.5rem}
+        .related-sub{font-size:.85rem;color:var(--gray);margin-bottom:2rem}
+        .related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+        .rcard{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:1.5rem;transition:all .25s;text-decoration:none;color:inherit;display:block}
+        .rcard:hover{border-color:var(--sage);box-shadow:0 4px 20px rgba(126,175,150,.12);transform:translateY(-2px)}
+        .rcard-title{font-size:.95rem;font-weight:700;color:var(--dark);margin-bottom:.4rem;transition:color .2s}
+        .rcard:hover .rcard-title{color:var(--sage-d)}
+        .rcard-company{font-size:.78rem;color:var(--sage-d);font-weight:600;margin-bottom:.6rem}
+        .rcard-meta{font-size:.78rem;color:var(--gray);margin-bottom:.75rem}
+        .rcard-sal{font-size:.85rem;font-weight:700;color:var(--dark)}
+
+        /* FOOTER */
+        footer{background:var(--dark);color:rgba(255,255,255,.7);padding:4rem 3rem 2rem}
+        .footer-inner{max-width:1280px;margin:0 auto}
+        .footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:3rem;padding-bottom:3rem;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:2rem}
+        .footer-logo{font-family:'Playfair Display',serif;font-size:1.3rem;color:#fff;margin-bottom:.5rem}
+        .footer-logo em{color:var(--sage);font-style:italic}
+        .footer-tagline{font-size:.82rem;color:rgba(255,255,255,.5);line-height:1.7;margin-top:.75rem;max-width:260px}
+        .footer-col-title{font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--sage);margin-bottom:1.25rem}
+        .footer-links{list-style:none;display:flex;flex-direction:column;gap:.6rem}
+        .footer-links a{color:rgba(255,255,255,.55);text-decoration:none;font-size:.83rem;transition:color .2s}
+        .footer-links a:hover{color:#fff}
+        .footer-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+        .footer-copy{font-size:.78rem;color:rgba(255,255,255,.35)}
+
+        @media(max-width:900px){.content-grid{grid-template-columns:1fr}.key-facts{grid-template-columns:1fr 1fr}.related-grid{grid-template-columns:1fr}}
+        @media(max-width:768px){
+            .nav-bar{padding:1rem 1.5rem}.nav-links{display:none}
+            .nav-links.open{display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:var(--white);border-bottom:1px solid var(--border);padding:1.5rem;gap:1rem;box-shadow:0 8px 24px rgba(0,0,0,.1)}
+            .hamburger{display:flex}.nav-actions .btn-outline{display:none}
+            .page-wrap{padding-left:1.5rem;padding-right:1.5rem}
+            .job-header{flex-direction:column}.job-title{font-size:1.7rem}
+            .key-facts{grid-template-columns:1fr 1fr}
+            .related{padding:3rem 1.5rem}
+            .footer-grid{grid-template-columns:1fr 1fr}
+        }
+    </style>
+</head>
+<body>
+
+<header id="header">
+    <div class="header-top">Life Science Recruitment — <span>UK · EU · US · MENA</span> — Specialists in MedTech, Digital Health, Pharma &amp; Biotech</div>
+    <div class="nav-bar">
+        <a href="index.html" class="logo">
+            <img src="image.jpeg" alt="Bragg Life Sciences">
+            <div class="logo-text">Bragg Life Sciences</div>
+        </a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#solutions">Solutions</a></li>
+            <li><a href="jobs.html" class="active">Jobs</a></li>
+            <li><a href="index.html#testimonials">Clients</a></li>
+            <li><a href="index.html#team">Team</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="jobs.html" class="btn-outline">Find a Job</a>
+            <a href="apply.html" class="btn-primary">Submit CV</a>
+        </div>
+        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </div>
+</header>
+
+<div class="page-wrap" id="pageWrap">
+    <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        <a href="jobs.html">Find a Job</a>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        <span id="breadTitle">Job Detail</span>
+    </div>
+
+    <div class="job-header">
+        <div>
+            <h1 class="job-title" id="jobTitle">Loading...</h1>
+            <div class="job-company">Bragg Life Sciences</div>
+            <div class="job-tags" id="jobTags"></div>
+        </div>
+        <a id="applyTopBtn" href="apply.html" class="apply-btn">Apply for this job</a>
+    </div>
+
+    <!-- KEY FACTS -->
+    <div class="key-facts">
+        <div class="fact-item"><div class="fact-label">Salary</div><div class="fact-val" id="factSal">—</div></div>
+        <div class="fact-item"><div class="fact-label">Location</div><div class="fact-val" id="factLoc">—</div></div>
+        <div class="fact-item"><div class="fact-label">Contract type</div><div class="fact-val" id="factType">—</div></div>
+        <div class="fact-item"><div class="fact-label">Posted</div><div class="fact-val" id="factPosted">—</div></div>
+    </div>
+
+    <div class="content-grid">
+        <div class="job-body">
+            <section>
+                <h2>About this job</h2>
+                <p id="jobAbout"></p>
+            </section>
+            <section>
+                <h2>Role highlights</h2>
+                <ul id="jobHighlights"></ul>
+            </section>
+            <section>
+                <h2>What we're looking for</h2>
+                <ul id="jobRequirements"></ul>
+            </section>
+            <section>
+                <h2>Key priorities in the role</h2>
+                <ul id="jobPriorities"></ul>
+            </section>
+            <a id="applyBottomBtn" href="apply.html" class="apply-cta">Apply for this job →</a>
+        </div>
+
+        <aside class="job-sidebar">
+            <div class="sidebar-box">
+                <div class="sidebar-box-title">Your consultant</div>
+                <img src="1758200680705.jpeg" alt="Anjam Khan" class="consultant-img">
+                <div class="consultant-name">Anjam Khan</div>
+                <div class="consultant-role">Founder · Bragg Life Sciences</div>
+                <a href="mailto:anjam@bragglifesciences.com" class="sidebar-clink">
+                    <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    anjam@bragglifesciences.com
+                </a>
+                <a href="tel:+447784246492" class="sidebar-clink">
+                    <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.6 19.79 19.79 0 0 1 1.61 5a2 2 0 0 1 1.99-2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 10.09a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    +44 (0)7784 246 492
+                </a>
+                <a href="https://uk.linkedin.com/in/med-dev" class="sidebar-clink" target="_blank">
+                    <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                    LinkedIn — Anjam Khan
+                </a>
+            </div>
+            <div class="sidebar-box">
+                <div class="sidebar-box-title">Share this job</div>
+                <div class="share-btns">
+                    <button class="share-btn" onclick="copyLink()">Copy link</button>
+                    <a class="share-btn" id="linkedinShare" href="#" target="_blank">LinkedIn</a>
+                    <a class="share-btn" id="emailShare" href="#">Email</a>
+                </div>
+            </div>
+        </aside>
+    </div>
+</div>
+
+<!-- RELATED JOBS -->
+<div class="related">
+    <div class="related-inner">
+        <h2>Related jobs</h2>
+        <p class="related-sub">Other roles you might be interested in</p>
+        <div class="related-grid" id="relatedGrid"></div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-inner">
+        <div class="footer-grid">
+            <div>
+                <div class="footer-logo">BRAGG<em>.</em> Life Sciences</div>
+                <p class="footer-tagline">Connecting exceptional talent with the world's most innovative life science companies — UK, EU, US &amp; MENA.</p>
+            </div>
+            <div>
+                <div class="footer-col-title">Candidates</div>
+                <ul class="footer-links">
+                    <li><a href="jobs.html">Browse Jobs</a></li>
+                    <li><a href="index.html#contact">Submit Your CV</a></li>
+                    <li><a href="index.html#solutions">Hire Models</a></li>
+                </ul>
+            </div>
+            <div>
+                <div class="footer-col-title">Employers</div>
+                <ul class="footer-links">
+                    <li><a href="index.html#contact">Find Talent</a></li>
+                    <li><a href="index.html#solutions">Retained Search</a></li>
+                    <li><a href="index.html#solutions">Team Builds</a></li>
+                </ul>
+            </div>
+            <div>
+                <div class="footer-col-title">Company</div>
+                <ul class="footer-links">
+                    <li><a href="index.html#about">About Us</a></li>
+                    <li><a href="index.html#testimonials">Clients</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                    <li><a href="mailto:anjam@bragglifesciences.com">anjam@bragglifesciences.com</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-copy">Registered Company No. 16959985 &nbsp;·&nbsp; © 2025 Bragg Life Sciences Ltd</div>
+            <div class="footer-copy">Life Science Recruitment — UK · EU · US · MENA</div>
+            <div class="footer-copy">Powered by <a href="https://www.webzcreatives.com" target="_blank" style="color:rgba(255,255,255,.5);text-decoration:none" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.5)'">webzcreatives</a></div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    window.addEventListener('scroll',()=>document.getElementById('header').classList.toggle('scrolled',scrollY>60));
+    const hamburger=document.getElementById('hamburger');
+    const navLinks=document.getElementById('navLinks');
+    hamburger.addEventListener('click',()=>navLinks.classList.toggle('open'));
+
+    const JOBS=[
+        {id:1,title:'VP Quality Assurance',loc:'London, UK',type:'permanent',cat:'quality',sal:'£120–150k',posted:'3 days ago',
+            about:'We are seeking an experienced VP of Quality Assurance to lead global quality strategy for a fast-scaling MedTech group. This is a senior leadership role reporting directly to the CEO, with responsibility for QMS, regulatory compliance and team development across multiple sites.',
+            highlights:['Senior leadership position with board-level visibility','Global remit across UK and European sites','Competitive salary with equity participation','Opportunity to shape quality culture from the top'],
+            requirements:['Degree in Life Sciences, Engineering or related discipline','10+ years in Quality leadership within medical devices or IVD','Proven track record building and scaling QMS','Experience with ISO 13485, FDA 21 CFR Part 820','Excellent stakeholder management skills'],
+            priorities:['Define and execute the global quality strategy','Lead a team of 15+ quality professionals','Drive continuous improvement across all sites','Engage with regulatory bodies and notified bodies']
+        },
+        {id:2,title:'Site Quality Director',loc:'Cambridge, UK',type:'permanent',cat:'quality',sal:'£90–110k',posted:'1 week ago',
+            about:'A leading biotech company in Cambridge is looking for a Site Quality Director to oversee all quality operations at their flagship UK manufacturing site. The role is pivotal in maintaining product quality standards and regulatory compliance.',
+            highlights:['Single-site leadership role with clear progression','On-site role in a state-of-the-art Cambridge facility','Strong team of quality engineers already in place','Attractive package including bonus and benefits'],
+            requirements:['Degree in Biosciences, Chemistry or related field','7+ years in site quality management within pharma or biotech','Deep knowledge of GMP, ISO 9001','Experience managing regulatory inspections','Strong leadership and communication skills'],
+            priorities:['Maintain and improve site QMS','Lead regulatory inspection readiness','Coach and develop a quality team of 8','Report to Group VP Quality on site performance']
+        },
+        {id:3,title:'R&D Manager — Wearables',loc:'Oxford, UK',type:'permanent',cat:'engineering',sal:'£75–90k',posted:'5 days ago',
+            about:'An exciting opportunity to lead R&D for a wearable medical device company at the forefront of digital health. You will manage a cross-functional team of engineers and scientists developing next-generation monitoring devices.',
+            highlights:['Cutting-edge wearable technology sector','Oxford HQ with flexible hybrid working','Stock options available','High-growth start-up with strong VC backing'],
+            requirements:['Degree in Electrical Engineering, Biomedical Engineering or related','5+ years in medical device R&D','Experience with IEC 60601, ISO 14971','Strong product development lifecycle knowledge','Team leadership experience'],
+            priorities:['Lead product development from concept to clinical validation','Manage engineering team of 6','Collaborate with clinical and regulatory functions','Drive innovation roadmap with CTO']
+        },
+        {id:4,title:'Clinical Affairs Director',loc:'Remote / EU',type:'permanent',cat:'clinical',sal:'€130–160k',posted:'2 days ago',
+            about:'A global MedTech company is hiring a Clinical Affairs Director to lead clinical strategy across Europe. This is a fully remote role suited to a senior clinical professional with deep experience in EU MDR and clinical evaluation.',
+            highlights:['Fully remote — work from anywhere in Europe','Lead a team of clinical specialists','Highly competitive European salary','Fast-growing company with innovative product portfolio'],
+            requirements:['MD, PhD or equivalent clinical qualification','8+ years in clinical affairs within medical devices','Expert knowledge of EU MDR and IVDR','Experience managing clinical investigations','Fluent English; additional European language a plus'],
+            priorities:['Develop and execute EU clinical strategy','Oversee clinical evaluations and PMS','Build relationships with KOLs across Europe','Ensure clinical compliance across all markets']
+        },
+        {id:5,title:'Regulatory Affairs Consultant',loc:'Zürich, Switzerland',type:'interim',cat:'quality',sal:'CHF 800–1k/day',posted:'Today',
+            about:'An interim regulatory affairs consultant is required in Zürich for an initial 6-month engagement with a global medical device company. The role focuses on EU MDR submissions and notified body interactions.',
+            highlights:['Day rate: CHF 800–1,000 depending on experience','6-month initial contract, likely to extend','On-site in Zürich (relocation support available)','Work directly with senior regulatory leadership'],
+            requirements:['5+ years regulatory affairs in medical devices','Expert knowledge of EU MDR 2017/745','Experience with technical documentation and GSPR','Notified body interaction experience essential','Available to start within 4 weeks'],
+            priorities:['Prepare and submit EU MDR technical files','Manage notified body queries','Support PRRC function','Review and update regulatory strategy']
+        },
+        {id:6,title:'Electronics Engineer',loc:'Manchester, UK',type:'contract',cat:'engineering',sal:'£400–500/day',posted:'4 days ago',
+            about:'A Manchester-based medical device company requires a contract Electronics Engineer for a 3-month project focused on PCB design and hardware verification for a Class II medical device.',
+            highlights:['Day rate: £400–500 depending on experience','3-month initial contract, possible extension','On-site in Manchester','Work within an established hardware engineering team'],
+            requirements:['Degree in Electronics or Electrical Engineering','3+ years PCB design experience','Proficiency in Altium Designer','Understanding of IEC 60601-1','Medical device experience preferred'],
+            priorities:['Design and review PCB schematics','Support hardware verification and validation','Produce design history file documentation','Collaborate with firmware and systems engineers']
+        },
+        {id:7,title:'Medical Science Liaison',loc:'Germany (field-based)',type:'permanent',cat:'clinical',sal:'€80–95k + pkg',posted:'1 week ago',
+            about:'A global pharmaceutical company is seeking an experienced Medical Science Liaison to cover the German market. The role requires a scientific expert with strong KOL engagement skills and deep knowledge of the therapeutic area.',
+            highlights:['Field-based role across Germany','Company car, laptop and full expenses','Attractive bonus scheme','Ongoing medical affairs career development'],
+            requirements:['PhD, PharmD or MD preferred','2+ years MSL experience in pharma or biotech','Strong scientific communication skills','Established network of German KOLs','Fluent German and English'],
+            priorities:['Build and maintain KOL relationships across Germany','Deliver scientific presentations and education','Support clinical trial site identification','Provide medical input to commercial teams']
+        },
+        {id:8,title:'Head of Data Science & AI',loc:'London / Hybrid',type:'permanent',cat:'engineering',sal:'£110–130k',posted:'2 weeks ago',
+            about:'An innovative digital health company is looking for a Head of Data Science & AI to lead a team building predictive analytics and machine learning products for the NHS and private healthcare sector.',
+            highlights:['Lead a team of 5 data scientists','Hybrid — 2 days London, 3 remote','Equity/options package','High-impact role shaping AI strategy'],
+            requirements:['PhD or MSc in Data Science, Statistics or related','5+ years in data science, 2+ in leadership','Strong Python, ML/DL frameworks','Healthcare data experience (NHS, EHR, HL7/FHIR)','Excellent communication of technical concepts'],
+            priorities:['Define and execute data science roadmap','Lead model development and deployment','Collaborate with clinical and product teams','Present AI strategy to executive board']
+        },
+    ];
+
+    const TYPE_LABEL={permanent:'Permanent',contract:'Contract',interim:'Interim'};
+    const TYPE_CLASS={permanent:'tag-perm',contract:'tag-contract',interim:'tag-interim'};
+    const CAT_LABEL={quality:'Quality & Reg',clinical:'Clinical',engineering:'Engineering'};
+
+    const params=new URLSearchParams(location.search);
+    const id=parseInt(params.get('id'))||1;
+    const job=JOBS.find(j=>j.id===id)||JOBS[0];
+
+    // Populate page
+    document.title=`${job.title} — Bragg Life Sciences`;
+    document.getElementById('breadTitle').textContent=job.title;
+    document.getElementById('jobTitle').textContent=job.title;
+    document.getElementById('jobTags').innerHTML=`<span class="tag ${TYPE_CLASS[job.type]}">${TYPE_LABEL[job.type]}</span><span class="tag tag-sector">${CAT_LABEL[job.cat]}</span>`;
+    document.getElementById('factSal').textContent=job.sal;
+    document.getElementById('factLoc').textContent=job.loc;
+    document.getElementById('factType').textContent=TYPE_LABEL[job.type];
+    document.getElementById('factPosted').textContent=job.posted;
+    document.getElementById('jobAbout').textContent=job.about;
+    document.getElementById('jobHighlights').innerHTML=job.highlights.map(h=>`<li>${h}</li>`).join('');
+    document.getElementById('jobRequirements').innerHTML=job.requirements.map(r=>`<li>${r}</li>`).join('');
+    document.getElementById('jobPriorities').innerHTML=job.priorities.map(p=>`<li>${p}</li>`).join('');
+
+    // Apply links
+    const applyUrl=`apply.html?id=${job.id}&title=${encodeURIComponent(job.title)}`;
+    document.getElementById('applyTopBtn').href=applyUrl;
+    document.getElementById('applyBottomBtn').href=applyUrl;
+
+    // Share
+    const pageUrl=location.href;
+    document.getElementById('linkedinShare').href=`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(pageUrl)}`;
+    document.getElementById('emailShare').href=`mailto:?subject=${encodeURIComponent(job.title+' — Bragg Life Sciences')}&body=${encodeURIComponent('I found this role and thought you might be interested: '+pageUrl)}`;
+
+    function copyLink(){navigator.clipboard.writeText(pageUrl).then(()=>alert('Link copied!'))}
+
+    // Related jobs
+    const related=JOBS.filter(j=>j.id!==job.id&&(j.cat===job.cat||j.type===job.type)).slice(0,3);
+    document.getElementById('relatedGrid').innerHTML=related.map(j=>`
+        <a href="job-detail.html?id=${j.id}" class="rcard">
+            <div class="rcard-title">${j.title}</div>
+            <div class="rcard-company">Bragg Life Sciences</div>
+            <div class="rcard-meta">${j.loc} · ${TYPE_LABEL[j.type]}</div>
+            <div class="rcard-sal">${j.sal}</div>
+        </a>`).join('');
+</script>
+</body>
+</html>

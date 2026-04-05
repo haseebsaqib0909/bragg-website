@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Find a Job — Bragg Life Sciences</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{
+            --sage:#7EAF96;--sage-d:#5a8a72;--sage-l:#e8f2ed;--sage-ll:#f4f9f6;
+            --dark:#1a2e25;--mid:#3d5a4a;--gray:#6b7b72;--light-gray:#f0f4f2;
+            --white:#ffffff;--border:#dde8e3;
+        }
+        html{scroll-behavior:smooth}
+        body{font-family:'Inter',sans-serif;background:var(--white);color:var(--dark);overflow-x:hidden}
+
+        /* HEADER */
+        header{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--white);border-bottom:1px solid var(--border);transition:box-shadow .3s}
+        header.scrolled{box-shadow:0 2px 20px rgba(0,0,0,.08)}
+        .header-top{background:var(--dark);color:rgba(255,255,255,.7);font-size:.72rem;text-align:center;padding:.5rem 1rem;letter-spacing:.04em}
+        .header-top span{color:var(--sage)}
+        .nav-bar{display:flex;align-items:center;justify-content:space-between;padding:1rem 3rem;max-width:1280px;margin:0 auto}
+        .logo{display:flex;align-items:center;gap:.75rem;text-decoration:none}
+        .logo img{height:44px;width:auto}
+        .logo-text{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--dark);line-height:1.1}
+        .logo-text small{display:block;font-family:'Inter',sans-serif;font-size:.6rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--sage)}
+        .nav-links{display:flex;list-style:none;gap:2.5rem;align-items:center}
+        .nav-links a{color:var(--mid);font-size:.82rem;font-weight:500;text-decoration:none;transition:color .2s}
+        .nav-links a:hover,.nav-links a.active{color:var(--sage-d)}
+        .nav-actions{display:flex;gap:.75rem;align-items:center}
+        .btn-outline{border:1.5px solid var(--sage);color:var(--sage-d);padding:.55rem 1.3rem;border-radius:6px;font-size:.78rem;font-weight:600;text-decoration:none;transition:all .25s}
+        .btn-outline:hover{background:var(--sage);color:#fff}
+        .btn-primary{background:var(--sage);color:#fff;padding:.55rem 1.3rem;border-radius:6px;font-size:.78rem;font-weight:600;text-decoration:none;transition:all .25s}
+        .btn-primary:hover{background:var(--sage-d)}
+        .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:.25rem}
+        .hamburger span{display:block;width:24px;height:2px;background:var(--dark);border-radius:2px;transition:all .3s}
+
+        /* HERO */
+        .hero{padding-top:106px;background:linear-gradient(135deg,var(--sage-ll) 0%,#edf5f0 50%,var(--sage-l) 100%);padding-bottom:2.5rem}
+        .hero-inner{max-width:1280px;margin:0 auto;padding:3rem 3rem 2rem}
+        .breadcrumb{display:flex;align-items:center;gap:.5rem;font-size:.78rem;color:var(--gray);margin-bottom:1.5rem}
+        .breadcrumb a{color:var(--sage-d);text-decoration:none}
+        .breadcrumb a:hover{text-decoration:underline}
+        .hero h1{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:700;color:var(--dark);margin-bottom:.75rem}
+        .hero-sub{font-size:.9rem;color:var(--gray);line-height:1.7;max-width:540px;margin-bottom:2rem}
+        .search-row{display:flex;gap:.75rem;flex-wrap:wrap}
+        .search-input{flex:1;min-width:200px;border:1.5px solid var(--border);border-radius:8px;padding:.8rem 1.1rem;font-size:.88rem;font-family:'Inter',sans-serif;color:var(--dark);background:var(--white);outline:none;transition:border-color .2s}
+        .search-input:focus{border-color:var(--sage)}
+        .search-input::placeholder{color:#aab8b2}
+        .search-btn{background:var(--sage);color:#fff;border:none;padding:.8rem 2rem;border-radius:8px;font-size:.88rem;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer;transition:background .25s;white-space:nowrap}
+        .search-btn:hover{background:var(--sage-d)}
+
+        /* LAYOUT */
+        .page-body{max-width:1280px;margin:0 auto;padding:2.5rem 3rem;display:grid;grid-template-columns:260px 1fr;gap:2.5rem;align-items:start}
+
+        /* SIDEBAR */
+        .sidebar{}
+        .sidebar-card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:1.25rem}
+        .sidebar-title{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);margin-bottom:1rem;padding-bottom:.75rem;border-bottom:1px solid var(--border)}
+        .filter-list{list-style:none;display:flex;flex-direction:column;gap:.1rem}
+        .filter-list li label{display:flex;align-items:center;gap:.6rem;font-size:.82rem;color:var(--mid);cursor:pointer;padding:.35rem .25rem;border-radius:6px;transition:background .15s}
+        .filter-list li label:hover{background:var(--sage-ll)}
+        .filter-list input[type=checkbox]{accent-color:var(--sage);width:15px;height:15px;cursor:pointer;flex-shrink:0}
+        .filter-count{margin-left:auto;font-size:.7rem;color:var(--gray);background:var(--light-gray);border-radius:100px;padding:.1rem .45rem}
+        .clear-btn{background:none;border:none;color:var(--sage-d);font-size:.75rem;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;margin-top:.75rem;padding:0;text-decoration:underline}
+        .clear-btn:hover{color:var(--dark)}
+
+        /* RESULTS */
+        .results-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:.75rem}
+        .results-count{font-size:.88rem;color:var(--gray)}
+        .results-count strong{color:var(--dark)}
+        .sort-select{border:1.5px solid var(--border);border-radius:8px;padding:.5rem .9rem;font-size:.8rem;font-family:'Inter',sans-serif;color:var(--mid);background:var(--white);cursor:pointer;outline:none}
+        .sort-select:focus{border-color:var(--sage)}
+
+        /* JOB CARDS */
+        .job-list{display:flex;flex-direction:column;gap:1rem}
+        .jcard{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:1.5rem 1.75rem;transition:all .25s;cursor:pointer;text-decoration:none;color:inherit;display:block}
+        .jcard:hover{border-color:var(--sage);box-shadow:0 4px 24px rgba(126,175,150,.12);transform:translateY(-2px)}
+        .jcard-inner{display:flex;align-items:flex-start;justify-content:space-between;gap:1.5rem}
+        .jcard-left{flex:1}
+        .jcard-title{font-size:1rem;font-weight:700;color:var(--dark);margin-bottom:.5rem;transition:color .2s}
+        .jcard:hover .jcard-title{color:var(--sage-d)}
+        .jcard-company{font-size:.82rem;color:var(--sage-d);font-weight:600;margin-bottom:.75rem}
+        .jcard-meta{display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:.9rem}
+        .jcard-meta span{font-size:.78rem;color:var(--gray);display:flex;align-items:center;gap:.35rem}
+        .meta-icon{width:14px;height:14px;stroke:var(--gray);fill:none;stroke-width:1.8;flex-shrink:0}
+        .jcard-tags{display:flex;gap:.5rem;flex-wrap:wrap}
+        .tag{font-size:.68rem;font-weight:600;letter-spacing:.06em;padding:.3rem .75rem;border-radius:100px}
+        .tag-perm{background:#e8f5f0;color:#2d7a57}
+        .tag-contract{background:#fff3e0;color:#c17000}
+        .tag-interim{background:#ede8ff;color:#6b4fa8}
+        .tag-sector{background:var(--sage-l);color:var(--sage-d)}
+        .jcard-right{display:flex;flex-direction:column;align-items:flex-end;gap:.75rem;flex-shrink:0}
+        .jcard-salary{font-size:.9rem;font-weight:700;color:var(--dark)}
+        .jcard-date{font-size:.72rem;color:var(--gray)}
+        .apply-btn{background:var(--sage);color:#fff;border:none;padding:.55rem 1.3rem;border-radius:8px;font-size:.78rem;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:background .25s;text-decoration:none}
+        .apply-btn:hover{background:var(--sage-d)}
+
+        /* PAGINATION */
+        .pagination{display:flex;align-items:center;justify-content:center;gap:.5rem;margin-top:2.5rem}
+        .page-btn{width:38px;height:38px;border:1.5px solid var(--border);background:var(--white);color:var(--mid);border-radius:8px;font-size:.82rem;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;display:flex;align-items:center;justify-content:center}
+        .page-btn:hover,.page-btn.active{background:var(--sage);border-color:var(--sage);color:#fff}
+        .page-ellipsis{color:var(--gray);font-size:.9rem;padding:0 .25rem}
+
+        /* FOOTER */
+        footer{background:var(--dark);color:rgba(255,255,255,.7);padding:4rem 3rem 2rem}
+        .footer-inner{max-width:1280px;margin:0 auto}
+        .footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:3rem;padding-bottom:3rem;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:2rem}
+        .footer-logo{font-family:'Playfair Display',serif;font-size:1.3rem;color:#fff;margin-bottom:.5rem}
+        .footer-logo em{color:var(--sage);font-style:italic}
+        .footer-tagline{font-size:.82rem;color:rgba(255,255,255,.5);line-height:1.7;margin-top:.75rem;max-width:260px}
+        .footer-col-title{font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--sage);margin-bottom:1.25rem}
+        .footer-links{list-style:none;display:flex;flex-direction:column;gap:.6rem}
+        .footer-links a{color:rgba(255,255,255,.55);text-decoration:none;font-size:.83rem;transition:color .2s}
+        .footer-links a:hover{color:#fff}
+        .footer-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+        .footer-copy{font-size:.78rem;color:rgba(255,255,255,.35)}
+
+        /* NO RESULTS */
+        .no-results{text-align:center;padding:4rem 2rem;color:var(--gray);font-style:italic}
+        .no-results a{color:var(--sage-d)}
+
+        @media(max-width:900px){
+            .page-body{grid-template-columns:1fr}
+            .sidebar{display:none}
+        }
+        @media(max-width:768px){
+            .nav-bar{padding:1rem 1.5rem}
+            .nav-links{display:none}
+            .nav-links.open{display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:var(--white);border-bottom:1px solid var(--border);padding:1.5rem;gap:1rem;box-shadow:0 8px 24px rgba(0,0,0,.1)}
+            .hamburger{display:flex}
+            .nav-actions .btn-outline{display:none}
+            .hero-inner,.page-body{padding:2rem 1.5rem}
+            .jcard-inner{flex-direction:column}
+            .jcard-right{flex-direction:row;align-items:center;width:100%}
+            .footer-grid{grid-template-columns:1fr 1fr}
+        }
+    </style>
+</head>
+<body>
+
+<header id="header">
+    <div class="header-top">Life Science Recruitment — <span>UK · EU · US · MENA</span> — Specialists in MedTech, Digital Health, Pharma &amp; Biotech</div>
+    <div class="nav-bar">
+        <a href="index.html" class="logo">
+            <img src="image.jpeg" alt="Bragg Life Sciences">
+            <div class="logo-text">Bragg Life Sciences</div>
+        </a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#solutions">Solutions</a></li>
+            <li><a href="jobs.html" class="active">Jobs</a></li>
+            <li><a href="index.html#testimonials">Clients</a></li>
+            <li><a href="index.html#team">Team</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="jobs.html" class="btn-outline">Find a Job</a>
+            <a href="apply.html" class="btn-primary">Submit CV</a>
+        </div>
+        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+    <div class="hero-inner">
+        <div class="breadcrumb">
+            <a href="index.html">Home</a>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            Find a Job
+        </div>
+        <h1>Find your next job</h1>
+        <p class="hero-sub">Search our current life science vacancies across medical devices, digital health, pharma, biotech and more.</p>
+        <div class="search-row">
+            <input class="search-input" id="kwInput" type="text" placeholder="Job title, keyword or specialism...">
+            <input class="search-input" id="locInput" type="text" placeholder="Location (e.g. London, Remote)">
+            <button class="search-btn" onclick="applyFilters()">Search Jobs</button>
+        </div>
+    </div>
+</div>
+
+<!-- BODY -->
+<div class="page-body">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-card">
+            <div class="sidebar-title">Contract Type</div>
+            <ul class="filter-list" id="typeFilter">
+                <li><label><input type="checkbox" value="permanent" onchange="applyFilters()"> Permanent <span class="filter-count">5</span></label></li>
+                <li><label><input type="checkbox" value="contract" onchange="applyFilters()"> Contract <span class="filter-count">1</span></label></li>
+                <li><label><input type="checkbox" value="interim" onchange="applyFilters()"> Interim <span class="filter-count">2</span></label></li>
+            </ul>
+        </div>
+        <div class="sidebar-card">
+            <div class="sidebar-title">Specialism</div>
+            <ul class="filter-list" id="catFilter">
+                <li><label><input type="checkbox" value="quality" onchange="applyFilters()"> Quality &amp; Regulatory <span class="filter-count">3</span></label></li>
+                <li><label><input type="checkbox" value="clinical" onchange="applyFilters()"> Clinical &amp; Medical <span class="filter-count">2</span></label></li>
+                <li><label><input type="checkbox" value="engineering" onchange="applyFilters()"> Engineering &amp; R&amp;D <span class="filter-count">3</span></label></li>
+            </ul>
+        </div>
+        <div class="sidebar-card">
+            <div class="sidebar-title">Location</div>
+            <ul class="filter-list" id="locFilter">
+                <li><label><input type="checkbox" value="uk" onchange="applyFilters()"> United Kingdom <span class="filter-count">5</span></label></li>
+                <li><label><input type="checkbox" value="remote" onchange="applyFilters()"> Remote / Hybrid <span class="filter-count">2</span></label></li>
+                <li><label><input type="checkbox" value="eu" onchange="applyFilters()"> Europe <span class="filter-count">2</span></label></li>
+            </ul>
+            <button class="clear-btn" onclick="clearFilters()">Clear all filters</button>
+        </div>
+    </aside>
+
+    <!-- RESULTS -->
+    <main>
+        <div class="results-header">
+            <div class="results-count" id="resultsCount"><strong>8</strong> roles found</div>
+            <select class="sort-select" id="sortSelect" onchange="applyFilters()">
+                <option value="recent">Most recent</option>
+                <option value="salary">Salary (high to low)</option>
+                <option value="title">Job title (A–Z)</option>
+            </select>
+        </div>
+        <div class="job-list" id="jobList"></div>
+        <div class="pagination" id="pagination"></div>
+    </main>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-inner">
+        <div class="footer-grid">
+            <div>
+                <div class="footer-logo">BRAGG<em>.</em> Life Sciences</div>
+                <p class="footer-tagline">Connecting exceptional talent with the world's most innovative life science companies — UK, EU, US &amp; MENA.</p>
+            </div>
+            <div>
+                <div class="footer-col-title">Candidates</div>
+                <ul class="footer-links">
+                    <li><a href="jobs.html">Browse Jobs</a></li>
+                    <li><a href="index.html#contact">Submit Your CV</a></li>
+                    <li><a href="index.html#solutions">Hire Models</a></li>
+                </ul>
+            </div>
+            <div>
+                <div class="footer-col-title">Employers</div>
+                <ul class="footer-links">
+                    <li><a href="index.html#contact">Find Talent</a></li>
+                    <li><a href="index.html#solutions">Retained Search</a></li>
+                    <li><a href="index.html#solutions">Team Builds</a></li>
+                </ul>
+            </div>
+            <div>
+                <div class="footer-col-title">Company</div>
+                <ul class="footer-links">
+                    <li><a href="index.html#about">About Us</a></li>
+                    <li><a href="index.html#testimonials">Clients</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                    <li><a href="mailto:anjam@bragglifesciences.com">anjam@bragglifesciences.com</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-copy">Registered Company No. 16959985 &nbsp;·&nbsp; © 2025 Bragg Life Sciences Ltd</div>
+            <div class="footer-copy">Life Science Recruitment — UK · EU · US · MENA</div>
+            <div class="footer-copy">Powered by <a href="https://www.webzcreatives.com" target="_blank" style="color:rgba(255,255,255,.5);text-decoration:none" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.5)'">webzcreatives</a></div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    window.addEventListener('scroll',()=>document.getElementById('header').classList.toggle('scrolled',scrollY>60));
+    const hamburger=document.getElementById('hamburger');
+    const navLinks=document.getElementById('navLinks');
+    hamburger.addEventListener('click',()=>navLinks.classList.toggle('open'));
+    navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>navLinks.classList.remove('open')));
+
+    const JOBS=[
+        {id:1,title:'VP Quality Assurance',company:'Bragg Life Sciences',loc:'London, UK',region:'uk',type:'permanent',cat:'quality',sal:'£120–150k',salNum:135000,posted:'3 days ago'},
+        {id:2,title:'Site Quality Director',company:'Bragg Life Sciences',loc:'Cambridge, UK',region:'uk',type:'permanent',cat:'quality',sal:'£90–110k',salNum:100000,posted:'1 week ago'},
+        {id:3,title:'R&D Manager — Wearables',company:'Bragg Life Sciences',loc:'Oxford, UK',region:'uk',type:'permanent',cat:'engineering',sal:'£75–90k',salNum:82500,posted:'5 days ago'},
+        {id:4,title:'Clinical Affairs Director',company:'Bragg Life Sciences',loc:'Remote / EU',region:'remote',type:'permanent',cat:'clinical',sal:'€130–160k',salNum:145000,posted:'2 days ago'},
+        {id:5,title:'Regulatory Affairs Consultant',company:'Bragg Life Sciences',loc:'Zürich, Switzerland',region:'eu',type:'interim',cat:'quality',sal:'CHF 800–1k/day',salNum:200000,posted:'Today'},
+        {id:6,title:'Electronics Engineer',company:'Bragg Life Sciences',loc:'Manchester, UK',region:'uk',type:'contract',cat:'engineering',sal:'£400–500/day',salNum:120000,posted:'4 days ago'},
+        {id:7,title:'Medical Science Liaison',company:'Bragg Life Sciences',loc:'Germany (field-based)',region:'eu',type:'permanent',cat:'clinical',sal:'€80–95k + pkg',salNum:87500,posted:'1 week ago'},
+        {id:8,title:'Head of Data Science & AI',company:'Bragg Life Sciences',loc:'London / Hybrid',region:'remote',type:'permanent',cat:'engineering',sal:'£110–130k',salNum:120000,posted:'2 weeks ago'},
+    ];
+
+    const TYPE_LABEL={permanent:'Permanent',contract:'Contract',interim:'Interim'};
+    const TYPE_CLASS={permanent:'tag-perm',contract:'tag-contract',interim:'tag-interim'};
+    const CAT_LABEL={quality:'Quality & Reg',clinical:'Clinical',engineering:'Engineering'};
+
+    let currentPage=1;
+    const PER_PAGE=8;
+
+    function getChecked(name){
+        return [...document.querySelectorAll(`#${name} input:checked`)].map(el=>el.value);
+    }
+
+    function applyFilters(){
+        const kw=document.getElementById('kwInput').value.trim().toLowerCase();
+        const loc=document.getElementById('locInput').value.trim().toLowerCase();
+        const types=getChecked('typeFilter');
+        const cats=getChecked('catFilter');
+        const locs=getChecked('locFilter');
+        const sort=document.getElementById('sortSelect').value;
+
+        let list=JOBS.filter(j=>{
+            if(kw && !j.title.toLowerCase().includes(kw) && !j.cat.includes(kw)) return false;
+            if(loc && !j.loc.toLowerCase().includes(loc) && !j.region.includes(loc)) return false;
+            if(types.length && !types.includes(j.type)) return false;
+            if(cats.length && !cats.includes(j.cat)) return false;
+            if(locs.length && !locs.includes(j.region)) return false;
+            return true;
+        });
+
+        if(sort==='salary') list=[...list].sort((a,b)=>b.salNum-a.salNum);
+        else if(sort==='title') list=[...list].sort((a,b)=>a.title.localeCompare(b.title));
+
+        currentPage=1;
+        renderJobs(list);
+    }
+
+    function clearFilters(){
+        document.querySelectorAll('.filter-list input').forEach(el=>el.checked=false);
+        document.getElementById('kwInput').value='';
+        document.getElementById('locInput').value='';
+        applyFilters();
+    }
+
+    function renderJobs(list){
+        const el=document.getElementById('jobList');
+        document.getElementById('resultsCount').innerHTML=`<strong>${list.length}</strong> role${list.length!==1?'s':''} found`;
+        const start=(currentPage-1)*PER_PAGE;
+        const page=list.slice(start,start+PER_PAGE);
+        el.innerHTML=page.length?page.map(j=>`
+            <a href="job-detail.html?id=${j.id}" class="jcard">
+                <div class="jcard-inner">
+                    <div class="jcard-left">
+                        <div class="jcard-title">${j.title}</div>
+                        <div class="jcard-company">${j.company}</div>
+                        <div class="jcard-meta">
+                            <span>
+                                <svg class="meta-icon" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                                ${j.loc}
+                            </span>
+                            <span>
+                                <svg class="meta-icon" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+                                ${TYPE_LABEL[j.type]}
+                            </span>
+                        </div>
+                        <div class="jcard-tags">
+                            <span class="tag ${TYPE_CLASS[j.type]}">${TYPE_LABEL[j.type]}</span>
+                            <span class="tag tag-sector">${CAT_LABEL[j.cat]}</span>
+                        </div>
+                    </div>
+                    <div class="jcard-right">
+                        <div class="jcard-salary">${j.sal}</div>
+                        <div class="jcard-date">${j.posted}</div>
+                        <span class="apply-btn">View Job →</span>
+                    </div>
+                </div>
+            </a>`).join('')
+            :`<div class="no-results">No matching roles — <a href="index.html#contact">register your interest →</a></div>`;
+        renderPagination(list);
+    }
+
+    function renderPagination(list){
+        const total=Math.ceil(list.length/PER_PAGE);
+        const el=document.getElementById('pagination');
+        if(total<=1){el.innerHTML='';return}
+        let html='';
+        if(currentPage>1) html+=`<button class="page-btn" onclick="goPage(${currentPage-1},event)">‹</button>`;
+        for(let i=1;i<=total;i++){
+            if(i===1||i===total||Math.abs(i-currentPage)<=1) html+=`<button class="page-btn${i===currentPage?' active':''}" onclick="goPage(${i},event)">${i}</button>`;
+            else if(Math.abs(i-currentPage)===2) html+=`<span class="page-ellipsis">…</span>`;
+        }
+        if(currentPage<total) html+=`<button class="page-btn" onclick="goPage(${currentPage+1},event)">›</button>`;
+        el.innerHTML=html;
+    }
+
+    function goPage(n,e){e.preventDefault();currentPage=n;applyFilters();window.scrollTo({top:0,behavior:'smooth'})}
+
+    // pre-fill from URL params
+    const params=new URLSearchParams(location.search);
+    if(params.get('q')) document.getElementById('kwInput').value=params.get('q');
+    if(params.get('loc')) document.getElementById('locInput').value=params.get('loc');
+
+    applyFilters();
+</script>
+</body>
+</html>
