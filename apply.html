@@ -208,7 +208,6 @@
             <input type="hidden" name="_template" value="table">
             <input type="hidden" name="_next" id="nextUrl" value="">
             <input type="hidden" name="_autoresponse" value="Dear Candidate, Thank you for submitting your application to Bragg Life Sciences. We are pleased to confirm that we have received your CV and details. Our team will carefully review your application and we aim to be in touch with you within 2 working days. We appreciate your interest in joining the Bragg Life Sciences network and look forward to speaking with you soon. Best regards, The Bragg Life Sciences Team | www.bragglifesciences.com">
-            <input type="hidden" name="_replyto" value="">
             <input type="hidden" name="job_title" id="hiddenJobTitle" value="">
 
             <!-- CV UPLOAD -->
@@ -385,16 +384,10 @@
         document.getElementById('successMsg').classList.add('show');
     }
 
-    // Mirror applicant email into _replyto so FormSubmit sends them a confirmation
-    const emailInput=document.querySelector('input[name="email"]');
-    const replytoInput=document.querySelector('input[name="_replyto"]');
-    emailInput.addEventListener('input',()=>{ replytoInput.value=emailInput.value; });
-
     // Disable button on submit to prevent double-click
     const form=document.getElementById('applyForm');
     const submitBtn=document.getElementById('submitBtn');
     form.addEventListener('submit',()=>{
-        replytoInput.value=emailInput.value;
         submitBtn.textContent='Submitting…';
         submitBtn.disabled=true;
     });
