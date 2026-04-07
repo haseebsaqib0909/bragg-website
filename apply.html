@@ -256,6 +256,10 @@
                         <input class="finput" type="tel" name="phone" placeholder="+44 7700 000000">
                     </div>
                     <div class="ff full">
+                        <label class="flabel">Position applying for</label>
+                        <input class="finput" type="text" name="position" id="positionField" placeholder="e.g. Clinical Research Associate" required>
+                    </div>
+                    <div class="ff full">
                         <label class="flabel">Current location</label>
                         <input class="finput" type="text" name="location" placeholder="e.g. London, UK">
                     </div>
@@ -327,6 +331,7 @@
 
     document.getElementById('jobBannerTitle').textContent=jobTitle;
     document.getElementById('hiddenJobTitle').value=jobTitle;
+    document.getElementById('positionField').value=jobTitle!=='Job Application'?jobTitle:'';
     document.getElementById('emailSubject').value=`New Application: ${jobTitle} — Bragg Life Sciences`;
     document.title=`Apply — ${jobTitle} — Bragg Life Sciences`;
 
