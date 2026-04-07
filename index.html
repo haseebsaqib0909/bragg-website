@@ -1006,12 +1006,18 @@
         }
         .footer-brand {}
         .footer-logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.3rem;
-            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: .75rem;
             margin-bottom: .5rem;
         }
-        .footer-logo em { color: var(--sage); font-style: italic }
+        .footer-logo img { height: 40px; width: auto }
+        .footer-logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: #fff;
+        }
+        .footer-logo-text em { color: var(--sage); font-style: italic }
         .footer-tagline {
             font-size: .82rem;
             color: rgba(255,255,255,.5);
@@ -1121,6 +1127,7 @@
             }
             .hamburger { display: flex }
             .nav-actions .btn-outline { display: none }
+            .nav-actions .btn-primary { display: none }
             section { padding: 3.5rem 1.5rem }
             .hero-inner { padding: 3rem 1.5rem }
             .hero h1 { font-size: 2.2rem }
@@ -1163,13 +1170,13 @@
             <ul class="nav-links" id="navLinks">
                 <li><a href="#about">About</a></li>
                 <li><a href="#solutions">Solutions</a></li>
-                <li><a href="#jobs">Jobs</a></li>
+                <li><a href="jobs.html">Jobs</a></li>
                 <li><a href="#testimonials">Clients</a></li>
                 <li><a href="#team">Team</a></li>
             </ul>
             <div class="nav-actions">
-                <a href="#jobs" class="btn-outline">Find a Job</a>
-                <a href="apply.html" class="btn-primary">Submit CV</a>
+                <a href="jobs.html" class="btn-outline">Find a Job</a>
+                <a href="jobs.html" class="btn-primary">Submit CV</a>
             </div>
             <button class="hamburger" id="hamburger" aria-label="Toggle menu">
                 <span></span><span></span><span></span>
@@ -1193,7 +1200,7 @@
                 <button onclick="handleSearch()">Search Jobs →</button>
             </div>
             <div class="hero-links">
-                <a href="#jobs" class="hero-link">
+                <a href="jobs.html" class="hero-link">
                     <span class="hero-link-arrow">→</span>
                     Browse all roles
                 </a>
@@ -1398,7 +1405,7 @@
                     <span class="section-tag">Open positions</span>
                     <h2 class="section-title" style="margin-bottom:0">Current <em>opportunities</em></h2>
                 </div>
-                <a href="#contact" class="btn-primary">Register Interest</a>
+                <a href="jobs.html" class="btn-primary">Register Interest</a>
             </div>
             <div class="jobs-filters">
                 <button class="f-btn on" onclick="filterJobs('all',this)">All roles</button>
@@ -1568,7 +1575,10 @@
         <div class="footer-inner">
             <div class="footer-grid">
                 <div class="footer-brand">
-                    <div class="footer-logo">BRAGG<em>.</em> Life Sciences</div>
+                    <div class="footer-logo">
+                        <img src="image.jpeg" alt="Bragg Life Sciences">
+                        <span class="footer-logo-text">BRAGG<em>.</em> Life Sciences</span>
+                    </div>
                     <p class="footer-tagline">Connecting exceptional talent with the world's most innovative life science companies — UK, EU, US &amp; MENA.</p>
                 </div>
                 <div>
