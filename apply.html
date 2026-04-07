@@ -206,6 +206,7 @@
             <input type="hidden" name="_captcha" value="false">
             <input type="hidden" name="_subject" id="emailSubject" value="New Job Application — Bragg Life Sciences">
             <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_next" id="nextUrl" value="">
             <input type="hidden" name="job_title" id="hiddenJobTitle" value="">
 
             <!-- CV UPLOAD -->
@@ -303,7 +304,10 @@
 
 <footer>
     <div class="footer-bottom">
-        <div class="footer-logo">BRAGG<em>.</em> Life Sciences</div>
+        <div class="footer-logo" style="display:flex;align-items:center;gap:.75rem">
+            <img src="image.jpeg" alt="Bragg Life Sciences" style="height:36px;width:auto">
+            <span style="font-family:'Playfair Display',serif;font-size:1.1rem;color:#fff">BRAGG<em style="color:#7EAF96;font-style:italic">.</em> Life Sciences</span>
+        </div>
         <div class="footer-copy">© 2025 Bragg Life Sciences Ltd · Registered Company No. 16959985</div>
         <div class="footer-copy">Powered by <a href="https://www.webzcreatives.com" target="_blank" style="color:rgba(255,255,255,.5);text-decoration:none" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.5)'">webzcreatives</a></div>
     </div>
@@ -363,30 +367,23 @@
         return (bytes/1048576).toFixed(1)+'MB';
     }
 
-    // Form submit
+    // Set _next redirect URL so FormSubmit returns here with ?success=1
+    const nextUrl=new URL(location.href);
+    nextUrl.searchParams.set('success','1');
+    document.getElementById('nextUrl').value=nextUrl.toString();
+
+    // Show success state if redirected back after submission
+    if(params.get('success')==='1'){
+        document.getElementById('applyForm').style.display='none';
+        document.getElementById('successMsg').classList.add('show');
+    }
+
+    // Disable button on submit to prevent double-click
     const form=document.getElementById('applyForm');
     const submitBtn=document.getElementById('submitBtn');
-    form.addEventListener('submit',async e=>{
-        e.preventDefault();
+    form.addEventListener('submit',()=>{
         submitBtn.textContent='Submitting…';
         submitBtn.disabled=true;
-        try{
-            const data=new FormData(form);
-            const res=await fetch(`https://formsubmit.co/ajax/haseebsaqib20@gmail.com`,{
-                method:'POST',
-                headers:{'Accept':'application/json'},
-                body:data
-            });
-            const json=await res.json();
-            if(json.success==='true'||json.success===true){
-                form.style.display='none';
-                document.getElementById('successMsg').classList.add('show');
-            } else { throw new Error() }
-        } catch{
-            submitBtn.textContent='Error — please try again';
-            submitBtn.style.background='#c0392b';
-            submitBtn.disabled=false;
-        }
     });
 </script>
 </body>
